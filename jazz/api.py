@@ -39,6 +39,9 @@ def process(req):
 	if (message.get('text') == 'Лови Джаза'.decode('utf-8')):
 		send = send_jazz(message.get('chat').get('id'))
 
+	elif (message.get('text') == 'gdzie jest śnieg?'.decode('utf-8')):
+		send = send_nie_ma(message.get('chat').get('id'))
+
 		if (send):
 			print 'Jazz was sended successfully'
 		else:
@@ -53,7 +56,6 @@ def call(url, method='GET', data={}, headers={}):
 	req.encoding = 'utf-8'
 
 	return json.loads(req.text) if req and req.text else None
-
 
 def get(url, data={}):
     return call(url, 'GET', data)
@@ -81,4 +83,12 @@ def send_jazz(id):
 		})
 	]
 
+def send_nie_ma(id):
+	reqs = [
+		get(method('sendMessage'), {
+			'chat_id': id,
+			'text': 'nie ma.'
+			})
+	]
+	
 	return len(filter(lambda req: req.get('ok') != True, reqs)) == 0
