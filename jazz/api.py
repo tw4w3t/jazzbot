@@ -56,39 +56,3 @@ def call(url, method='GET', data={}, headers={}):
 	req.encoding = 'utf-8'
 
 	return json.loads(req.text) if req and req.text else None
-
-def get(url, data={}):
-    return call(url, 'GET', data)
-
-def post(url, data={}):
-    return call(url, 'POST', data)
-
-def send_jazz(id):
-	reqs = [
-		get(method('sendMessage'), {
-			'chat_id': id,
-			'text': 'Я ловлю Джаза'
-		}),
-		get(method('sendSticker'), {
-			'chat_id': id,
-			'sticker': CHIRUNO_STICKER
-		}),
-		get(method('sendMessage'), {
-			'chat_id': id,
-			'text': 'Ха-ха, смотрите какой он недовольный!'
-		}),
-		get(method('sendSticker'), {
-			'chat_id': id,
-			'sticker': JAZZ_STICKER
-		})
-	]
-
-def send_nie_ma(id):
-	reqs = [
-		get(method('sendMessage'), {
-			'chat_id': id,
-			'text': 'nie ma.'
-			})
-	]
-	
-	return len(filter(lambda req: req.get('ok') != True, reqs)) == 0
